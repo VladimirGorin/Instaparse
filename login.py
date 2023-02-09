@@ -7,7 +7,7 @@ from clear_notifications import clear_notifications
 from get_code import get_the_email_code
 from selenium.common.exceptions import NoSuchElementException
 
-def login(browser, email, password, check_name_exists):
+def login(browser, email, password):
 
     browser.get('https://www.instagram.com')
 

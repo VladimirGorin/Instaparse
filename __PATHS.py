@@ -46,3 +46,7 @@ me_profile_info = "x1qjc9v5"
 close_profile = "_aa_u"
 close_profile_text = "Это закрытый аккаунт"
 
+direct_profile = "_abyl"
+direct_chats = ""
+dircet_message_input = "Напишите сообщение…"
+direct_message_button = ""

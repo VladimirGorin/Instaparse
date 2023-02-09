@@ -15,6 +15,7 @@ Instaparse aims to be the simplest way to build parsers in Instagram.
 + Work with mobile proxies and from multiple accounts
 + Authorization and task setting for each account
 + Profile subscriber analysis script.
++ Send private messages to users.
 
 ## Quickstart
 
@@ -56,6 +57,8 @@ First of all, go to `/settings/users-settings.json` and set up your accounts the
 | geolocation |`type:dict` List here all geolocations and further on posts in these geopositions, profiles will be taken and their stories will be viewed |
 | subscriber |`type:dict` List here all users of the followers you want to view stories |
 | auth_id |`type:int` The unique ID allows you to run each listed profile in the settings separately. |
+| msg_limit |`type:int` Specify here the number of users to whom you want to unsubscribe, if you want to unsubscribe to everyone, write 0, so if you write 1, then the first user from your chats will not receive messages, the same if you specify 2, then the first two users will not receive a message and then. |
+| message_send |`type:str`Enter your message to be sent here|
 
 
 > Note: Each step starts in order if you specified step 2 for two users, then both of these accounts will work only for them, but if you specified a unique id, then it will launch only one account with the specified id `DO NOT SPECIFY A UNIQUE ID FOR TWO USERS`
@@ -76,6 +79,8 @@ First of all, go to `/settings/users-settings.json` and set up your accounts the
 
     step 6: After specifying step 6, ATTENTION THIS STEP SHOULD BE RUN ALWAYS AFTER CHANGE THE USER SETTINGS FILE, this step creates the necessary sessions and json files for recording.
     
+    step 7: After specifying step 7, you will send a message to users.
+
 ## Analytics Options
 All parameters can be viewed after running the analytics along the way `/analytics/users_analytics.json`
     

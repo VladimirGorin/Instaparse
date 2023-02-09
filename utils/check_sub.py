@@ -44,8 +44,11 @@ def get_stories_sub(browser, subTag, like_limit, stories_sub):
                 time.sleep(4)
                 get_posts_catalog(browser, True, l) 
 
+        except StaleElementReferenceException:
+            print("Елемент на сайте не был найден пробуем заново")
+            pass  
         except NoSuchElementException:
-            print("Профиль закрыт - либо подпиши ков ещё нету")
-            continue   
+            print("Елемент не найден")  
+            continue
             
             
