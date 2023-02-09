@@ -1,0 +1,20 @@
+[
+    {
+        "email": "your_instagram_login",
+        "pass": "your_instagram_pass",
+        "proxy": null,
+        "step": 1,
+        "stories": 15, 
+        "stories_sub":15, 
+        "like_limit": 15, 
+        "stories_search": 15,
+        "scroll_on_sub": 15,
+        "sub_scroll": 15,
+        "on_sub": "language",
+        "sub": ["airbrushofficial"],
+        "hastages": ["tea", "Moscow"],
+        "geolocation": ["Moscow", "Piter"],
+        "subscriber": ["leomessi", "Sub1"],
+        "auth_id": 1
+    }
+]

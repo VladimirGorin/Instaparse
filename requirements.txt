@@ -1,0 +1,4 @@
+selenium>=4.8.0
+instaloader>= 4.9.3
+datetime
+langdetect
