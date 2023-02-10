@@ -3,7 +3,7 @@ from settings.data import get_user_settings, get_user_analytics
 from utils.check_geo import get_stories_geo
 from utils.check_hastage import get_stories_hastage
 from utils.check_sub import get_stories_sub
-from utils.get_analytics import get_analytics
+from utils.get_analytics import get_analytics, get_followees
 from utils.get_on_sub import get_on_sub
 from utils.send_msg_user import send_message
 from login import login
@@ -62,13 +62,14 @@ def select_function():
                             "./chromedriver/chromedriver.exe")
 
                         print('step 3')
+                        users = get_followees(sub, email, password)
                         login(browser, email, password)
-                        get_stories_sub(browser, subTag,
+                        get_stories_sub(browser, users,
                                         like_limit, stories_sub, step, email)
                 if input_step == "4":
                     if str(step) == input_step:
                         print('step 4')
-                        get_analytics(sub, email, password)
+                        get_analytics(subTag, email, password)
                 if input_step == "5":
                     if str(step) == input_step:
                         browser = webdriver.Chrome(
@@ -141,12 +142,14 @@ def select_function():
                                 "./chromedriver/chromedriver.exe")
 
                             print('step 3')
+                            users = get_followees(sub, email, password)
+                            
                             login(browser, email, password)
-                            get_stories_sub(browser, subTag,
+                            get_stories_sub(browser, users,
                                             like_limit, stories_sub, step, email)
                         if str(step) == "4":
                             print('step 4')
-                            get_analytics(sub, email, password)
+                            get_analytics(subTag, email, password)
                         if str(step) == "5":
                             browser = webdriver.Chrome(
                                 "./chromedriver/chromedriver.exe")

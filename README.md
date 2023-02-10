@@ -1,8 +1,9 @@
 # instaparse
 
+
+* Instaparse 0.4.9
 * Instaparse 0.4.7
 * Instaparse 0.4.5
-* Instaparse 0.4.1
 
 *What if context-free grammars were as easy to use as regular expressions?*
 

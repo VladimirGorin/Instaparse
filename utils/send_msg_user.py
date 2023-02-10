@@ -32,7 +32,8 @@ def send_message(browser, message, msg_limit, step, user):
 
 
     for href in hrefs:
-        time.sleep(5)
+        browser.get(href)
+        time.sleep(7)
         try:
             now = datetime.datetime.now()
 

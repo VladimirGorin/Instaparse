@@ -18,6 +18,39 @@ def save_info(path, obj):
         json.dump(data, f, indent=3)
 
 
+def get_followees(sub, user, passwd):
+    for s in sub:
+        print(user, passwd)
+        path = f'./sessions/{user}.'
+        l = instaloader.Instaloader(compress_json=False)
+        users = []
+
+        try:
+            l.load_session_from_file(user, path)
+        except FileNotFoundError:
+            try:
+                l.login(user, passwd)
+                l.save_session_to_file(path)
+            except ConnectionException:
+                print(f"Аккаунт {user} времено в блокировке")
+                continue
+            except BadCredentialsException:
+                print("Пароль не верный")
+                continue
+
+        try:
+            profile = Profile.from_username(l.context, s)
+            for user_ in profile.get_followers():
+                followees = user_.followees  # Sub
+                users.append(followees)
+
+        except ConnectionException:
+            print(f"Аккаунт {user} времено в блокировке")
+            continue
+
+        l.close()
+        return users
+
 def get_analytics(sub, user, passwd):
     generate_files()
     for s in sub:
