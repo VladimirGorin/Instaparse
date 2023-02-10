@@ -1,6 +1,8 @@
 # instaparse
 
+* Instaparse 0.4.5
 * Instaparse 0.4.1
+
 *What if context-free grammars were as easy to use as regular expressions?*
 
 ## Description
@@ -16,11 +18,12 @@ Instaparse aims to be the simplest way to build parsers in Instagram.
 + Authorization and task setting for each account
 + Profile subscriber analysis script.
 + Send private messages to users.
++ Full collection of data during the work process for use on the site or elsewhere.
 
 ## Quickstart
 
 Instaparse requires Python 3+, 
-selenium 4.8.0, instaloader, datetime, langdetect
+selenium 4.8.0, instaloader, datetime, langdetect, tabulate
 os windows 10 - 11 
 chromedriver 
 
@@ -99,6 +102,10 @@ All parameters can be viewed after running the analytics along the way `/analyti
     genuine_audience:Profiles with less than 1000 followers
 
 >  If there are errors / bugs / questions, write to me in telegram s.m. profile. You were Vladimir thank you for your attention!
+
+## Output
+I have added a full activity tracking function, you can go make tea and when you return look into the `/tracker/your_account_name.json` directory, open the file with the accounts you want and see all the logs.
+
 
 ## License
 MIT

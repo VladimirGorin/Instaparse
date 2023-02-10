@@ -6,9 +6,11 @@ from selenium.webdriver.common.keys import Keys
 from __PATHS import direct_profile, direct_chats, dircet_message_input, direct_message_button
 from clear_notifications import clear_notifications
 import time
+from info_tracker import get_info
+import datetime
 
 
-def send_message(browser, message, msg_limit):
+def send_message(browser, message, msg_limit, step, user):
     clear_notifications(browser)
     browser.get("https://www.instagram.com/direct/inbox/")
     time.sleep(4)
@@ -32,10 +34,13 @@ def send_message(browser, message, msg_limit):
     for href in hrefs:
         time.sleep(5)
         try:
+            now = datetime.datetime.now()
+
             textarea = browser.find_element(By.TAG_NAME, "textarea")
             textarea.send_keys(message)
             time.sleep(2)
             textarea.send_keys(Keys.ENTER)
 
+            get_info(step, user, 0, 0, 1, now.strftime("%d-%m-%Y %H:%M"))
         except NoSuchElementException:
             print("Елемент не найден")

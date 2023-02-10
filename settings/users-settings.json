@@ -3,13 +3,12 @@
         "email": "anastasija.volkova7163",
         "pass": "O7mEfIz3bY",
         "proxy": null,
-        "step": 7,
-        "stories": 0, 
-        "stories_sub":0, 
+        "step": 3,
+        "stories": 100, 
+        "stories_sub": 10, 
         "like_limit": 0, 
         "stories_search": 0,
         "scroll_on_sub": 0,
-        "sub_scroll": 0,
         "message_send": "asd",
         "msg_limit": 0,
         "on_sub": "language",
@@ -17,6 +16,25 @@
         "hastages": ["tea", "Moscow"],
         "geolocation": ["Moscow", "Piter"],
         "subscriber": ["leomessi", "Sub1"],
-        "auth_id": 1
+        "auth_id": 2
+    },
+    {
+        "email": "asd",
+        "pass": "O7mEfIz3bY",
+        "proxy": null,
+        "step": 3,
+        "stories": 100, 
+        "stories_sub": 10, 
+        "like_limit": 0, 
+        "stories_search": 0,
+        "scroll_on_sub": 0,
+        "message_send": "asd",
+        "msg_limit": 0,
+        "on_sub": "language",
+        "sub": ["airbrushofficial"],
+        "hastages": ["tea", "Moscow"],
+        "geolocation": ["Moscow", "Piter"],
+        "subscriber": ["leomessi", "Sub1"],
+        "auth_id": 2
     }
 ]

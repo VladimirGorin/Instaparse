@@ -1,0 +1,26 @@
+{
+   "step_1": {
+      "likes": 4,
+      "stories": 0,
+      "messages_sended": 2,
+      "in_work": "10-02-2023 07:56"
+   },
+   "step_2": {
+      "likes": 0,
+      "stories": 0,
+      "messages_sended": 0,
+      "in_work": 0
+   },
+   "step_3": {
+      "likes": 0,
+      "stories": 0,
+      "messages_sended": 0,
+      "in_work": 0
+   },
+   "step_7": {
+      "likes": 0,
+      "stories": 0,
+      "messages_sended": 0,
+      "in_work": 0
+   }
+}

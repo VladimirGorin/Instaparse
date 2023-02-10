@@ -21,6 +21,7 @@ def get_on_sub(browser, ingore, users, email, scroll_on_sub):
     i = 0
 
     while i < scroll_on_sub:       
+            print(i)
             
             browser.execute_script('arguments[0].scrollTop = arguments[0].scrollHeight', browser.find_element(By.CLASS_NAME, user_profile_followers_body))
             time.sleep(5)
