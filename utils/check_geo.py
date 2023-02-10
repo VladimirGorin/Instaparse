@@ -3,20 +3,25 @@ import time
 from __PATHS import stories_post, stories_post_canvas , stories_post_canvas, stories_geo_search_scroll_block, stories_geo_search_tag_name, stories_geo_search_input, stories_geo_search, stories_geo_search_tag_name_input
 from get_posts import get_posts_catalog
 from clear_notifications import clear_notifications
-from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException, ElementClickInterceptedException
 
 
-def get_stories_geo(browser, geoTag, like_limit, stories_search, step):
+def get_stories_geo(browser, geoTag, like_limit, stories_search, step, email):
     clear_notifications(browser)
     for g in geoTag:
 
         hrefs = []
         i = 0
         for elements_ in browser.find_elements(By.TAG_NAME, stories_geo_search_tag_name):
-            if i == 2:
-                elements_.click()
+            try:
+                if i == 2:
+                    elements_.click()
+                    i += 1
                 i += 1
-            i += 1
+            except ElementClickInterceptedException:
+                print("Мы не можем нажать на элемент")
+
+                pass
         time.sleep(2)
         for elements_ in browser.find_elements(By.TAG_NAME, stories_geo_search_tag_name_input):
             if elements_.get_attribute("placeholder") == stories_geo_search_input:
@@ -80,7 +85,7 @@ def get_stories_geo(browser, geoTag, like_limit, stories_search, step):
                         
                     browser.get(f"https://www.instagram.com/stories/{user}")
                     time.sleep(2)
-                    get_posts_catalog(browser, True, l, step) 
+                    get_posts_catalog(browser, True, l, step, email) 
                         
                 except StaleElementReferenceException:
                     print("Елемент на сайте не был найден пробуем заново")

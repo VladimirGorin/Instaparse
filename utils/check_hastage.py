@@ -6,7 +6,7 @@ from clear_notifications import clear_notifications
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 
 
-def get_stories_hastage(browser, has_tags, like_limit, stories, step):
+def get_stories_hastage(browser, has_tags, like_limit, stories, step, email):
     clear_notifications(browser)
     for h in has_tags:
         
@@ -49,7 +49,7 @@ def get_stories_hastage(browser, has_tags, like_limit, stories, step):
 
                 browser.get(f"https://www.instagram.com/stories/{user}")
                 time.sleep(2)
-                get_posts_catalog(browser, True, l, step) 
+                get_posts_catalog(browser, True, l, step, email) 
 
         except StaleElementReferenceException:
             print("Елемент на сайте не был найден пробуем заново")

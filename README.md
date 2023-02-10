@@ -1,5 +1,6 @@
 # instaparse
 
+* Instaparse 0.4.7
 * Instaparse 0.4.5
 * Instaparse 0.4.1
 
