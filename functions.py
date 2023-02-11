@@ -3,8 +3,9 @@ from settings.data import get_user_settings, get_user_analytics
 from utils.check_geo import get_stories_geo
 from utils.check_hastage import get_stories_hastage
 from utils.check_sub import get_stories_sub
-from utils.get_analytics import get_analytics, get_followees
-from utils.get_on_sub import get_on_sub
+from utils.analytics_functions.get_analytics import get_analytics, get_followees
+from utils.analytics_functions.get_users import get_users
+from utils.analytics_functions.get_on_sub import get_on_sub
 from utils.send_msg_user import send_message
 from login import login
 from generate_files import generate_files_to_tracker, delete_files_to_tracker, generate_files
@@ -25,16 +26,19 @@ def select_function():
                 email = u['email']
                 password = u['pass']
                 step = u['step']
+
                 hasTag = u["hastages"]
                 geoTag = u["geolocation"]
                 subTag = u["subscriber"]
-                stories = u["stories"]
-                stories_search = u["stories_search"]
-                stories_sub = u["stories_sub"]
-                sub = u["sub"]
-                like_limit = u["like_limit"]
-                ingore = u["on_sub"]
+                sub = u["analytic_sub"]
+
+                stories = u["stories_hastag_scroll"]
+                stories_search = u["stories_geo_scroll"]
                 scroll_on_sub = u["scroll_on_sub"]
+                scroll_analytic = u["scroll_analytic"]
+                followes_scroll = u["followes_scroll"]
+
+                ingore = u["on_sub_category"]
                 message_send = u["message_send"]
                 msg_limit = u["msg_limit"]
 
@@ -45,8 +49,7 @@ def select_function():
 
                         print('step 1')
                         login(browser, email, password)
-                        get_stories_hastage(
-                            browser, hasTag, like_limit, stories, step, email)
+                        get_stories_hastage(browser, hasTag, stories, step, email)
                 if input_step == "2":
                     if str(step) == input_step:
                         browser = webdriver.Chrome(
@@ -54,8 +57,7 @@ def select_function():
 
                         print('step 2')
                         login(browser, email, password)
-                        get_stories_geo(browser, geoTag,
-                                        like_limit, stories_search, step, email)
+                        get_stories_geo(browser, geoTag, stories_search, step, email)
                 if input_step == "3":
                     if str(step) == input_step:
                         print('step 3')
@@ -63,15 +65,16 @@ def select_function():
                         browser = webdriver.Chrome(
                             "./chromedriver/chromedriver.exe")
                         login(browser, email, password)
-                        get_stories_sub(browser, users,
-                                        like_limit, stories_sub, step, email)
+                        get_stories_sub(browser, users, step, email)
                         browser.quit()
                         browser.close()
                         
                 if input_step == "4":
                     if str(step) == input_step:
                         print('step 4')
-                        get_analytics(subTag, email, password)
+                        browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
+                        login(browser, email, password)
+                        get_users(browser, subTag, scroll_analytic, email, password)
                 if input_step == "5":
                     if str(step) == input_step:
                         browser = webdriver.Chrome(
@@ -92,7 +95,7 @@ def select_function():
                         print('step 7')
                         login(browser, email, password)
                         send_message(browser, message_send,
-                                     msg_limit, step, email)
+                                     msg_limit, followes_scroll, step, email)
                 elif step == None:
                     ""
                 else:
@@ -105,22 +108,27 @@ def select_function():
         while True:
                 for u in get_user_settings():
                     generate_files_to_tracker()
+
                     email = u['email']
                     password = u['pass']
                     step = u['step']
+
                     hasTag = u["hastages"]
                     geoTag = u["geolocation"]
                     subTag = u["subscriber"]
-                    stories = u["stories"]
-                    stories_search = u["stories_search"]
-                    stories_sub = u["stories_sub"]
-                    sub = u["sub"]
-                    auth_id = str(u["auth_id"])
-                    like_limit = u["like_limit"]
-                    ingore = u["on_sub"]
+                    sub = u["analytic_sub"]
+
+                    stories = u["stories_hastag_scroll"]
+                    stories_search = u["stories_geo_scroll"]
                     scroll_on_sub = u["scroll_on_sub"]
+                    scroll_analytic = u["scroll_analytic"]
+                    followes_scroll = u["followes_scroll"]
+
+                    ingore = u["on_sub_category"]
                     message_send = u["message_send"]
                     msg_limit = u["msg_limit"]
+                    auth_id = u["auth_id"]
+
 
                     if auth_id == input_step:
                         if str(step) == "1":
@@ -130,29 +138,30 @@ def select_function():
                             print('step 1')
                             login(browser, email, password)
                             get_stories_hastage(
-                                browser, hasTag, like_limit, stories, step, email)
+                                browser, hasTag, stories, step, email)
                         if str(step) == "2":
                             browser = webdriver.Chrome(
                                 "./chromedriver/chromedriver.exe")
 
                             print('step 2')
                             login(browser, email, password)
-                            get_stories_geo(browser, geoTag,
-                                            like_limit, stories_search, step, email)
+                            get_stories_geo(browser, geoTag, stories_search, step, email)
                         if str(step) == "3":
                             print('step 3')
                             users = get_followees(sub, email, password)
                             browser = webdriver.Chrome(
                                 "./chromedriver/chromedriver.exe")
                             login(browser, email, password)
-                            get_stories_sub(browser, users,
-                                            like_limit, stories_sub, step, email)
+                            get_stories_sub(browser, users, step, email)
                             browser.quit()
                             browser.close()
 
                         if str(step) == "4":
                             print('step 4')
-                            get_analytics(subTag, email, password)
+                            browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
+                            login(browser, email, password)
+                            get_users(browser, subTag, scroll_analytic, email, password)
+
                         if str(step) == "5":
                             browser = webdriver.Chrome(
                                 "./chromedriver/chromedriver.exe")
@@ -171,7 +180,7 @@ def select_function():
                             print('step 7')
                             login(browser, email, password)
                             send_message(browser, message_send,
-                                         msg_limit, step, email)
+                                         msg_limit, followes_scroll, step, email)
 
                         elif step == None:
                             ""

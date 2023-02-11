@@ -1,7 +1,7 @@
 # instaparse
 
+* Instaparse 0.5.5
 * Instaparse 0.5.1
-* Instaparse 0.4.9
 * Instaparse 0.4.7
 
 *What if context-free grammars were as easy to use as regular expressions?*
@@ -50,10 +50,9 @@ First of all, go to `/settings/users-settings.json` and set up your accounts the
 | email | `type:str`your instagram login |
 | pass | `type:str`your instagram passwd |
 | step | `type:int`For each function there is a step below, I painted in detail each step |
-| stories | `type:int` Block scroll for step 1 |
-| stories_sub | `type:int` Block scroll for step 2 |
-| stories_search | `type:int` Block scroll for step 3  |
-| sub_scroll | `type:int` 4 |
+| stories_hastag_scroll | `type:int` Block scroll for step 1 |
+| stories_geo_scroll | `type:int` Block scroll for step 3  |
+| followes_scroll | `type:int` Block scroll for step 7 |
 | scroll_on_sub |  `type:int` Block scroll for step 5 |
 | on_sub | `type:str` Specify a category here ```(all available categories are listed below)``` and all users who do not match this category will be unsubscribed from you. |
 | sub |`type:dict` Specify users here to analyze their followers |

@@ -6,7 +6,7 @@ from clear_notifications import clear_notifications
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 
 
-def get_stories_hastage(browser, has_tags, like_limit, stories, step, email):
+def get_stories_hastage(browser, has_tags, stories, step, email):
     clear_notifications(browser)
     for h in has_tags:
         

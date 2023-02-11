@@ -4,7 +4,7 @@ from get_posts import get_posts_catalog
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 
 
-def get_stories_sub(browser, subTag, like_limit, stories_sub, step, email):
+def get_stories_sub(browser, subTag, step, email):
     time.sleep(3)
     clear_notifications(browser)
     for s in subTag:

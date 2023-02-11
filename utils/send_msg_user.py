@@ -8,9 +8,9 @@ from clear_notifications import clear_notifications
 import time
 from info_tracker import get_info
 import datetime
+import random
 
-
-def send_message(browser, message, msg_limit, step, user):
+def send_message(browser, message, msg_limit, followes_scroll, step, user):
     clear_notifications(browser)
     browser.get("https://www.instagram.com/direct/inbox/")
     time.sleep(4)
@@ -18,9 +18,21 @@ def send_message(browser, message, msg_limit, step, user):
     i = 0
 
     try:
+        scroll = 0
+        while scroll < followes_scroll:
+            browser.execute_script('arguments[0].scrollTop = arguments[0].scrollHeight', browser.find_element(By.CLASS_NAME, direct_profile))
+            time.sleep(5)
+            browser.execute_script(f"document.querySelector('.{direct_profile}').scrollTo(0, screenTop);")
+            time.sleep(5)
+            scroll += 1
+    except NoSuchElementException:
+        print("Мы не нашли элемент для скрола")
+
+    try:
         for elements_ in browser.find_elements(By.XPATH, f"//div[contains(@class, '{direct_profile}')]//child::*"):
             try:
                 if elements_.tag_name == "a":
+                    href = elements_.get_attribute("href")
                     if msg_limit < i:
                         hrefs.append(elements_.get_attribute("href"))
                     i += 1
@@ -43,6 +55,9 @@ def send_message(browser, message, msg_limit, step, user):
             textarea.send_keys(Keys.ENTER)
 
             get_info(step, user, 0, 0, 1, now.strftime("%d-%m-%Y %H:%M"))
+            time_sleep = random.randrange(180, 300)
+            print(f"Спим рандомно - {time_sleep} sec")
+            time.sleep(time_sleep)
         except NoSuchElementException:
             print("Елемент не найден")
 

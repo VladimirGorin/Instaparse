@@ -4,6 +4,7 @@ from __PATHS import stories_post_like, stories_counter, stories_view_count
 from info_tracker import get_info
 import datetime
 from selenium.common.exceptions import ElementClickInterceptedException, StaleElementReferenceException
+import random
 
 def get_posts_catalog(browser, state, user, step, email):
     time.sleep(4)
@@ -12,7 +13,7 @@ def get_posts_catalog(browser, state, user, step, email):
 
 
     if url != "https://www.instagram.com/":
-        if url != f"https://www.instagram.com/{email}":
+        if url != f"https://www.instagram.com/{email}/":
             now = datetime.datetime.now()
 
             print("get_posts")
@@ -57,6 +58,7 @@ def get_posts_catalog(browser, state, user, step, email):
                 pass
 
             get_info(step, email, status["likes"], status["stories_viewed"], 0, now.strftime("%d-%m-%Y %H:%M"))
-
-            print("Спим 3 минуты")
-            time.sleep(180)                
+    
+            random_sleep = random.randrange(180, 300)
+            print(f"Спим рандомно {random_sleep} sec")
+            time.sleep(random_sleep)              

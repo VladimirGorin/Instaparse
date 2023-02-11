@@ -6,7 +6,7 @@ from clear_notifications import clear_notifications
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException, ElementClickInterceptedException
 
 
-def get_stories_geo(browser, geoTag, like_limit, stories_search, step, email):
+def get_stories_geo(browser, geoTag, stories_search, step, email):
     clear_notifications(browser)
     for g in geoTag:
 
