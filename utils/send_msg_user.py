@@ -3,7 +3,7 @@ from selenium.common.exceptions import StaleElementReferenceException, NoSuchEle
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementNotInteractableException
 from selenium.webdriver.common.keys import Keys
-from __PATHS import direct_profile, direct_chats, dircet_message_input, direct_message_button
+from __PATHS import direct_profile
 from clear_notifications import clear_notifications
 import time
 from info_tracker import get_info
@@ -45,3 +45,7 @@ def send_message(browser, message, msg_limit, step, user):
             get_info(step, user, 0, 0, 1, now.strftime("%d-%m-%Y %H:%M"))
         except NoSuchElementException:
             print("Елемент не найден")
+
+        except ElementNotInteractableException:
+            print("Не возможно кликнуть на элемент, пробуем заново")
+            pass

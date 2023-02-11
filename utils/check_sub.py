@@ -1,9 +1,6 @@
-from selenium.webdriver.common.by import By
 import time
 from clear_notifications import clear_notifications
 from get_posts import get_posts_catalog
-from __PATHS import user_profile_followers_body
-from itertools import groupby
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 
 
@@ -12,6 +9,7 @@ def get_stories_sub(browser, subTag, like_limit, stories_sub, step, email):
     clear_notifications(browser)
     for s in subTag:
         try:
+            print(s)
             stories = f"https://www.instagram.com/stories/{s}"
             browser.get(stories)
             time.sleep(4)

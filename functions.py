@@ -58,14 +58,16 @@ def select_function():
                                         like_limit, stories_search, step, email)
                 if input_step == "3":
                     if str(step) == input_step:
-                        browser = webdriver.Chrome(
-                            "./chromedriver/chromedriver.exe")
-
                         print('step 3')
                         users = get_followees(sub, email, password)
+                        browser = webdriver.Chrome(
+                            "./chromedriver/chromedriver.exe")
                         login(browser, email, password)
                         get_stories_sub(browser, users,
                                         like_limit, stories_sub, step, email)
+                        browser.quit()
+                        browser.close()
+                        
                 if input_step == "4":
                     if str(step) == input_step:
                         print('step 4')
@@ -138,15 +140,16 @@ def select_function():
                             get_stories_geo(browser, geoTag,
                                             like_limit, stories_search, step, email)
                         if str(step) == "3":
-                            browser = webdriver.Chrome(
-                                "./chromedriver/chromedriver.exe")
-
                             print('step 3')
                             users = get_followees(sub, email, password)
-                            
+                            browser = webdriver.Chrome(
+                                "./chromedriver/chromedriver.exe")
                             login(browser, email, password)
                             get_stories_sub(browser, users,
                                             like_limit, stories_sub, step, email)
+                            browser.quit()
+                            browser.close()
+
                         if str(step) == "4":
                             print('step 4')
                             get_analytics(subTag, email, password)

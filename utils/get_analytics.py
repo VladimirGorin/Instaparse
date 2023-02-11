@@ -2,11 +2,11 @@ from langdetect import detect
 import instaloader
 from instaloader.structures import Profile
 import json
-from instaloader.exceptions import BadCredentialsException, ConnectionException
+from instaloader.exceptions import BadCredentialsException, ConnectionException, ProfileNotExistsException
 from langdetect.lang_detect_exception import LangDetectException
 from datetime import datetime, date
 from generate_files import generate_files
-
+from itertools import groupby
 
 def save_info(path, obj):
     with open(f"./storage/users_analytics.json", "r") as f:
@@ -41,15 +41,22 @@ def get_followees(sub, user, passwd):
         try:
             profile = Profile.from_username(l.context, s)
             for user_ in profile.get_followers():
-                followees = user_.followees  # Sub
-                users.append(followees)
-
+                try:
+                    use__ = Profile.from_id(l.context, user_.followees).username
+                    print(use__)
+                    users.append(use__)
+                except ProfileNotExistsException:
+                    print("Аккаунт не был записан так как он заблокировал вас")
+                    continue
         except ConnectionException:
             print(f"Аккаунт {user} времено в блокировке")
             continue
 
+        new_hrefs = [el for el, _ in groupby(users)]
+        print(new_hrefs)
         l.close()
-        return users
+        return new_hrefs
+        
 
 def get_analytics(sub, user, passwd):
     generate_files()
@@ -186,6 +193,9 @@ def get_analytics(sub, user, passwd):
 
         except ConnectionException:
             print(f"Аккаунт {user} времено в блокировке")
+            continue
+        except ProfileNotExistsException:
+            print("Аккаунт не был записан так как он заблокировал вас")
             continue
 
         l.close()

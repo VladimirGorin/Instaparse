@@ -1,9 +1,9 @@
 [
     {
-        "email": "you_login_pass",
-        "pass": "you_account_pass",
+        "email": "anastasija.volkova7163",
+        "pass": "O7mEfIz3bY",
         "proxy": null,
-        "step": 4,
+        "step": 3,
         "stories": 1, 
         "stories_sub": 1, 
         "like_limit": 0, 
@@ -12,7 +12,7 @@
         "message_send": "asd",
         "msg_limit": 0,
         "on_sub": "language",
-        "sub": ["airbrushofficial"],
+        "sub": ["asd_das_asd_"],
         "hastages": ["tea", "Moscow"],
         "geolocation": ["Moscow", "Piter"],
         "subscriber": ["leomessi", "Sub1"],
