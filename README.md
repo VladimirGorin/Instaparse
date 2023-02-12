@@ -1,7 +1,7 @@
 # instaparse
 
+* Instaparse 0.5.9
 * Instaparse 0.5.5
-* Instaparse 0.5.1
 * Instaparse 0.4.7
 
 *What if context-free grammars were as easy to use as regular expressions?*
@@ -49,6 +49,7 @@ First of all, go to `/settings/users-settings.json` and set up your accounts the
 | ------ | ------ | 
 | email | `type:str`your instagram login |
 | pass | `type:str`your instagram passwd |
+| users_parse | `type:dict` List here the objects in which specify the `user_name` and `user_password` parameter, this is necessary for parsing the audience and managing analytics over them.|
 | step | `type:int`For each function there is a step below, I painted in detail each step |
 | stories_hastag_scroll | `type:int` Block scroll for step 1 |
 | stories_geo_scroll | `type:int` Block scroll for step 3  |
@@ -59,6 +60,7 @@ First of all, go to `/settings/users-settings.json` and set up your accounts the
 | hastages |`type:dict` List all the hashtags here, and further on the posts in these hash tags, profiles will be taken and their stories will be viewed  |
 | geolocation |`type:dict` List here all geolocations and further on posts in these geopositions, profiles will be taken and their stories will be viewed |
 | subscriber |`type:dict` List here all users of the followers you want to view stories |
+| analytic_sub |`type:dict` Specify here the user from whom you want to collect an audience and conduct analytics on them |
 | auth_id |`type:int` The unique ID allows you to run each listed profile in the settings separately. |
 | msg_limit |`type:int` Specify here the number of users to whom you want to unsubscribe, if you want to unsubscribe to everyone, write 0, so if you write 1, then the first user from your chats will not receive messages, the same if you specify 2, then the first two users will not receive a message and then. |
 | message_send |`type:str`Enter your message to be sent here|

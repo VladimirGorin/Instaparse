@@ -6,7 +6,7 @@ from selenium.common.exceptions import StaleElementReferenceException, NoSuchEle
 from itertools import groupby
 from utils.analytics_functions.get_analytics import get_analytics
 
-def get_users(browser, subTag, scroll_analytic, email, password):
+def get_users(browser, subTag, scroll_analytic, users_parse):
     clear_notifications(browser)
     for u in subTag:
         print(subTag)
@@ -51,4 +51,5 @@ def get_users(browser, subTag, scroll_analytic, email, password):
 
         browser.close()
         browser.quit()
-        get_analytics([el for el, _ in groupby(users)], email, password)
+
+        get_analytics([el for el, _ in groupby(users)], users_parse)

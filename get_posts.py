@@ -13,7 +13,7 @@ def get_posts_catalog(browser, state, user, step, email):
 
 
     if url != "https://www.instagram.com/":
-        if url != f"https://www.instagram.com/{email}/":
+        if url != f"https://www.instagram.com/{user}/":
             now = datetime.datetime.now()
 
             print("get_posts")

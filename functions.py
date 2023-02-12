@@ -3,7 +3,7 @@ from settings.data import get_user_settings, get_user_analytics
 from utils.check_geo import get_stories_geo
 from utils.check_hastage import get_stories_hastage
 from utils.check_sub import get_stories_sub
-from utils.analytics_functions.get_analytics import get_analytics, get_followees
+from utils.analytics_functions.get_analytics import get_followees
 from utils.analytics_functions.get_users import get_users
 from utils.analytics_functions.get_on_sub import get_on_sub
 from utils.send_msg_user import send_message
@@ -29,8 +29,8 @@ def select_function():
 
                 hasTag = u["hastages"]
                 geoTag = u["geolocation"]
-                subTag = u["subscriber"]
                 sub = u["analytic_sub"]
+                subTag = u["subscribers"]
 
                 stories = u["stories_hastag_scroll"]
                 stories_search = u["stories_geo_scroll"]
@@ -38,6 +38,8 @@ def select_function():
                 scroll_analytic = u["scroll_analytic"]
                 followes_scroll = u["followes_scroll"]
 
+
+                users_parse = u["users_parse"]
                 ingore = u["on_sub_category"]
                 message_send = u["message_send"]
                 msg_limit = u["msg_limit"]
@@ -61,7 +63,7 @@ def select_function():
                 if input_step == "3":
                     if str(step) == input_step:
                         print('step 3')
-                        users = get_followees(sub, email, password)
+                        users = get_followees(subTag, email, password)
                         browser = webdriver.Chrome(
                             "./chromedriver/chromedriver.exe")
                         login(browser, email, password)
@@ -74,7 +76,7 @@ def select_function():
                         print('step 4')
                         browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
                         login(browser, email, password)
-                        get_users(browser, subTag, scroll_analytic, email, password)
+                        get_users(browser, sub, scroll_analytic, users_parse)
                 if input_step == "5":
                     if str(step) == input_step:
                         browser = webdriver.Chrome(
@@ -115,15 +117,16 @@ def select_function():
 
                     hasTag = u["hastages"]
                     geoTag = u["geolocation"]
-                    subTag = u["subscriber"]
                     sub = u["analytic_sub"]
+                    subTag = u["subscribers"]
 
                     stories = u["stories_hastag_scroll"]
                     stories_search = u["stories_geo_scroll"]
                     scroll_on_sub = u["scroll_on_sub"]
                     scroll_analytic = u["scroll_analytic"]
                     followes_scroll = u["followes_scroll"]
-
+                    
+                    users_parse = u["users_parse"]
                     ingore = u["on_sub_category"]
                     message_send = u["message_send"]
                     msg_limit = u["msg_limit"]
@@ -148,7 +151,7 @@ def select_function():
                             get_stories_geo(browser, geoTag, stories_search, step, email)
                         if str(step) == "3":
                             print('step 3')
-                            users = get_followees(sub, email, password)
+                            users = get_followees(subTag, email, password)
                             browser = webdriver.Chrome(
                                 "./chromedriver/chromedriver.exe")
                             login(browser, email, password)
@@ -160,7 +163,7 @@ def select_function():
                             print('step 4')
                             browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
                             login(browser, email, password)
-                            get_users(browser, subTag, scroll_analytic, email, password)
+                            get_users(browser, sub, scroll_analytic, users_parse)
 
                         if str(step) == "5":
                             browser = webdriver.Chrome(

@@ -99,7 +99,7 @@ def generate_files():
         data = json.load(f)
 
     for u in data:
-        link = u["email"]
+        link = u["users_parse"][0]["user_name"]
         with open(f"./analytics/{link}.json", "w") as file:
             file.write(f"[]")
 
@@ -117,5 +117,6 @@ def generate_files():
         
         with open(f"./analytics/{link}.json", "w") as f:
             json.dump(data, f, indent=3)
+        
             
     print("Файлы успешно созданы")
