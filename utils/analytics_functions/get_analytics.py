@@ -2,11 +2,12 @@ from langdetect import detect
 import instaloader
 from instaloader.structures import Profile
 import json
-from instaloader.exceptions import BadCredentialsException, ConnectionException, ProfileNotExistsException, QueryReturnedBadRequestException
+from instaloader.exceptions import BadCredentialsException, ConnectionException, ProfileNotExistsException, QueryReturnedBadRequestException, TooManyRequestsException
 from langdetect.lang_detect_exception import LangDetectException
 from datetime import datetime, date
 from generate_files import generate_files
 from itertools import groupby
+import time
 
 def save_info(path, obj):
     with open(f"./storage/users_analytics.json", "r") as f:
@@ -18,44 +19,49 @@ def save_info(path, obj):
         json.dump(data, f, indent=3)
 
 
-def get_followees(sub, user, passwd):
+def get_followees(sub, users_parse):
     for s in sub:
-        print(user, passwd, s)
-        path = f'./sessions/{user}.'
-        l = instaloader.Instaloader(compress_json=False)
-        users = []
+        for us in users_parse:
+            user = us["user_name"]
+            passwd = us['user_password']
+            print(user, passwd, s)
+            path = f'./sessions/{user}.'
+            l = instaloader.Instaloader(compress_json=False)
+            users = []
 
-        try:
-            l.load_session_from_file(user, path)
-        except FileNotFoundError:
             try:
-                l.login(user, passwd)
-                l.save_session_to_file(path)
+                l.load_session_from_file(user, path)
+            except FileNotFoundError:
+                try:
+                    l.login(user, passwd)
+                    l.save_session_to_file(path)
+                except ConnectionException:
+                    print(f"Аккаунт {user} времено в блокировке")
+                    continue
+                except BadCredentialsException:
+                    print("Пароль не верный")
+                    continue
+
+            try:
+                profile = Profile.from_username(l.context, s)
+                for followes_ in profile.get_followers():
+                    users.append(followes_.username)
+                    time.sleep(0.2)
+                    print(followes_.username)
+            except TooManyRequestsException:
+                print(f"Слишком много запросов меняем аккаунт {user}")
+                continue
             except ConnectionException:
                 print(f"Аккаунт {user} времено в блокировке")
                 continue
-            except BadCredentialsException:
-                print("Пароль не верный")
-                continue
-
-        try:
-            profile = Profile.from_username(l.context, s)
-            for user_ in profile.get_followers():
-                try:
-                    print(user_.username)
-                    users.append(user_.username)
-                except ProfileNotExistsException:
-                    print("Аккаунт не был записан так как он заблокировал вас")
-                    continue
-        except ConnectionException:
-            print(f"Аккаунт {user} времено в блокировке")
-            continue
-
-        new_hrefs = [el for el, _ in groupby(users)]
-        print(new_hrefs)
-        l.close()
-        return new_hrefs
-
+            except QueryReturnedBadRequestException:
+                print(f"Похоже что аккаунт {user} временно заблокировали")
+                break
+            
+            new_hrefs = [el for el, _ in groupby(users)]
+            print(new_hrefs)
+            l.close()
+            return new_hrefs
 
 
 
@@ -65,8 +71,7 @@ def get_analytics(subs, users):
         for us in users:
             user = us["user_name"]
             passwd = us['user_password']
-            print(f'\n{user, passwd}\n')
-            print(f'\nuser:{s}\n')
+            print(f'\n{user, passwd}\nuser:{s}\n')
             path = f'./sessions/{user}.'
             l = instaloader.Instaloader(compress_json=False)
             i = 0
@@ -193,11 +198,14 @@ def get_analytics(subs, users):
                     try:
                         with open(f"./analytics/{user}.json", "w") as f:
                             json.dump(data, f, indent=3)
-                        break
+                            break
                     except FileNotFoundError:
                         print("Запустите шаг 6 прежде чем запускать аналитику !!!")
                         continue
-                    
+
+            except TooManyRequestsException:
+                print(f"Слишком много запросов меняем аккаунт {user}")
+                continue
             except ConnectionException:
                 print(f"Аккаунт {user} времено в блокировке")
                 continue

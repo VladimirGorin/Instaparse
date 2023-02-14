@@ -15,8 +15,8 @@ def send_message(browser, message, msg_limit, followes_scroll, step, user):
     browser.get("https://www.instagram.com/direct/inbox/")
     time.sleep(4)
     hrefs = []
-    i = 0
-
+    i = 1
+    print(message)
     try:
         scroll = 0
         while scroll < followes_scroll:
@@ -25,9 +25,9 @@ def send_message(browser, message, msg_limit, followes_scroll, step, user):
             browser.execute_script(f"document.querySelector('.{direct_profile}').scrollTo(0, screenTop);")
             time.sleep(5)
             scroll += 1
-    except NoSuchElementException:
+    except NoSuchElementException:  
         print("Мы не нашли элемент для скрола")
-
+        pass
     try:
         for elements_ in browser.find_elements(By.XPATH, f"//div[contains(@class, '{direct_profile}')]//child::*"):
             try:

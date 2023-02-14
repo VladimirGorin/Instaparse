@@ -3,7 +3,7 @@
         "email": "nobot.pro",
         "pass": "Onemillion1",
         "proxy": null,
-        "step": 7,
+        "step": 3,
 
         "stories_hastag_scroll": 1, 
         "stories_geo_scroll": 1,
@@ -11,15 +11,12 @@
         "scroll_analytic": 1,
         "scroll_on_sub": 1,
 
-        "message_send": "ASDASDASDSDS",
-        "msg_limit": 1,
+        "message_send": "���� 123",
+        "msg_limit": 0,
 
         "on_sub_category": "language",
-        "analytic_sub": ["asd_das_asd_"],
-        "users_parse": [{
-            "user_name": "marina.vinogradova5740",
-            "user_password": "U4fOiIt4jG"
-        },
+        "analytic_sub": ["asdorcuyumm"],
+        "users_parse": [
         {
             "user_name": "nadja.gerasimova5258",
             "user_password": "I5kAsEm9rC"
@@ -27,7 +24,7 @@
 
         "hastages": ["tea", "Moscow"],
         "geolocation": ["Moscow", "Piter"],
-        "subscribers": ["asd_das_asd_"],
+        "subscribers": ["asdorcuyumm"],
         "auth_id": 2
     }
 ]
