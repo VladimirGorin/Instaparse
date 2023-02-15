@@ -65,10 +65,11 @@ def get_followees(sub, users_parse):
 
 
 
-def get_analytics(subs, users):
+def get_analytics(subs, users, email):
     generate_files()
     for s in subs:
         for us in users:
+            print(f"email{email}")
             user = us["user_name"]
             passwd = us['user_password']
             print(f'\n{user, passwd}\nuser:{s}\n')
@@ -172,14 +173,15 @@ def get_analytics(subs, users):
                     print(f"\n{user_info}\n")
 
                     try:
-                        save_info("./storage/users_analytics.json", user_info[0])
+                        save_info(f"./storage/{email}.json", user_info[0])
                     except FileNotFoundError:
                         print("Запустите шаг 6 прежде чем запускать аналитику !!!")
                         continue
 
                     try:
-                        with open(f"./analytics/{user}.json", "r") as f:
+                        with open(f"./analytics/{email}.json", "r") as f:
                             data = json.load(f)
+
                     except FileNotFoundError:
                         print("Запустите шаг 6 прежде чем запускать аналитику !!!")
                         continue
@@ -209,7 +211,7 @@ def get_analytics(subs, users):
                     print(i)
 
                     try:
-                        with open(f"./analytics/{user}.json", "w") as f:
+                        with open(f"./analytics/{email}.json", "w") as f:
                             json.dump(data, f, indent=3)
                             break
                     except FileNotFoundError:

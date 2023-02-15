@@ -8,12 +8,13 @@ from utils.analytics_functions.get_users import get_users
 from utils.analytics_functions.get_on_sub import get_on_sub
 from utils.send_msg_user import send_message
 from login import login
-from generate_files import generate_files_to_tracker, delete_files_to_tracker, generate_files
+from generate_files import generate_files_to_tracker, delete_files_to_tracker, generate_files, generate_files_analytic
 
 
 def select_function():
     print("\n1 = Только по step без конечно\n2 = Только по кокретному аккаунту без конечно\n")
     get_step = input("Введите функцию: ")
+    
 
     if int(get_step) == 1:
         input_step = input("Введите step: ")
@@ -21,6 +22,7 @@ def select_function():
         for u in get_user_settings():
             generate_files_to_tracker()
             delete_files_to_tracker()
+            generate_files_analytic()
 
             email = u['email']
             password = u['pass']
@@ -80,7 +82,7 @@ def select_function():
                     print('step 4')
                     browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
                     login(browser, email, password)
-                    get_users(browser, sub, scroll_analytic, users_parse)
+                    get_users(browser, sub, scroll_analytic, users_parse, email)
             if input_step == "5":
                 if str(step) == input_step:
                     browser = webdriver.Chrome(
@@ -88,8 +90,7 @@ def select_function():
 
                     print('step 5')
                     login(browser, email, password)
-                    get_on_sub(browser, ingore,
-                               get_user_analytics(), email, scroll_on_sub)
+                    get_on_sub(browser, ingore, email, scroll_on_sub)
             if input_step == "6":
                 while True:
                     print('step 6')
@@ -113,6 +114,8 @@ def select_function():
         input_step = input("Введите уникальный ID: ")
         for u in get_user_settings():
             generate_files_to_tracker()
+            delete_files_to_tracker()
+            generate_files_analytic()
 
             email = u['email']
             password = u['pass']
@@ -169,7 +172,7 @@ def select_function():
                     print('step 4')
                     browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
                     login(browser, email, password)
-                    get_users(browser, sub, scroll_analytic, users_parse)
+                    get_users(browser, sub, scroll_analytic, users_parse, email)
 
                 if str(step) == "5":
                     browser = webdriver.Chrome(
@@ -177,8 +180,7 @@ def select_function():
 
                     print('step 5')
                     login(browser, email, password)
-                    get_on_sub(browser, ingore,
-                               get_user_analytics(), email, scroll_on_sub)
+                    get_on_sub(browser, ingore, email, scroll_on_sub)
                 if str(step) == "6":
                     while True:
                         print('step 6')

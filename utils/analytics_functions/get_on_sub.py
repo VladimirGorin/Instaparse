@@ -3,7 +3,7 @@ import time
 from __PATHS import user_profile_followers_body, me_profile_button
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException, ElementClickInterceptedException
 from clear_notifications import clear_notifications
-
+import json
 
 def confirm_delete(browser):
     for elements_ in browser.find_elements(By.CLASS_NAME, "_a9--"):
@@ -14,9 +14,16 @@ def confirm_delete(browser):
                     break
         except ElementClickInterceptedException:
             print("Мы не можем нажать на элемент")
+            pass    
 
-            pass                
-def get_on_sub(browser, ingore, users, email, scroll_on_sub):
+def get_analytic_file(email):
+    with open(f"./storage/{email}.json", "r") as f:
+        data = json.load(f)
+    return data
+
+        
+                    
+def get_on_sub(browser, ingore, email, scroll_on_sub):
     clear_notifications(browser)    
 
     browser.get(f"https://www.instagram.com/{email}/followers/")
@@ -32,6 +39,8 @@ def get_on_sub(browser, ingore, users, email, scroll_on_sub):
             browser.execute_script(f"document.querySelector('.{user_profile_followers_body}').scrollTo(0, screenTop);")
             time.sleep(5)
             i+=1
+
+    users = get_analytic_file(email)
         
     for u in users:
             user_settings = [{
