@@ -77,11 +77,10 @@ def select_function():
                     
             if input_step == "4":
                 if str(step) == input_step:
-                    while True:
-                        print('step 4')
-                        browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
-                        login(browser, email, password)
-                        get_users(browser, sub, scroll_analytic, users_parse)
+                    print('step 4')
+                    browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
+                    login(browser, email, password)
+                    get_users(browser, sub, scroll_analytic, users_parse)
             if input_step == "5":
                 if str(step) == input_step:
                     browser = webdriver.Chrome(
@@ -167,11 +166,10 @@ def select_function():
                         browser.close()
 
                 if str(step) == "4":
-                    while True:
-                        print('step 4')
-                        browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
-                        login(browser, email, password)
-                        get_users(browser, sub, scroll_analytic, users_parse)
+                    print('step 4')
+                    browser = webdriver.Chrome("./chromedriver/chromedriver.exe")
+                    login(browser, email, password)
+                    get_users(browser, sub, scroll_analytic, users_parse)
 
                 if str(step) == "5":
                     browser = webdriver.Chrome(

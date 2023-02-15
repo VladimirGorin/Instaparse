@@ -76,12 +76,20 @@ def get_analytics(subs, users):
             l = instaloader.Instaloader(compress_json=False)
             i = 0
 
+            proxies = {
+                'http': 'socks5://pproxy.site:12006',
+                'https': 'socks5://pproxy.site:12006'
+            }
+
             try:
                 l.load_session_from_file(user, path)
+                l.context._session.proxies = proxies
             except FileNotFoundError:
                 try:
                     l.login(user, passwd)
                     l.save_session_to_file(path)
+                    l.context._session.proxies = proxies
+
                 except ConnectionException:
                     print(f"Аккаунт {user} времено в блокировке")
                     continue
@@ -90,10 +98,15 @@ def get_analytics(subs, users):
                     continue
 
             try:
+
+                    time.sleep(0.3)
                     try:
                         profile = Profile.from_username(l.context, s)
                     except QueryReturnedBadRequestException:
                         print(f"Похоже что аккаунт {user} временно заблокировали")
+                        break
+                    except ProfileNotExistsException:
+                        print("Удалёный аккаунт")
                         break
 
                     user_name = profile.username

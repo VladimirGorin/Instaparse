@@ -1,25 +1,29 @@
 [
     {
-        "email": "nobot.pro",
-        "pass": "Onemillion1",
+        "email": "sreda.app",
+        "pass": "Onemillion123",
         "proxy": null,
-        "step": 3,
+        "step": 4,
 
         "stories_hastag_scroll": 1, 
         "stories_geo_scroll": 1,
-        "followes_scroll": 1,
+        "followes_scroll": 16,
         "scroll_analytic": 1,
         "scroll_on_sub": 1,
 
         "message_send": "���� 123",
         "msg_limit": 0,
-
+        
         "on_sub_category": "language",
-        "analytic_sub": ["asdorcuyumm"],
+        "analytic_sub": ["sreda.app"],
         "users_parse": [
         {
-            "user_name": "nadja.gerasimova5258",
-            "user_password": "I5kAsEm9rC"
+            "user_name": "marina.vinogradova5740",
+            "user_password": "U4fOiIt4jG"
+        },
+        {
+            "user_name": "darja.martynova6575",
+            "user_password": "I8bOiOm8fF"
         }],
 
         "hastages": ["tea", "Moscow"],
