@@ -23,6 +23,7 @@ def select_function():
             generate_files_to_tracker()
             delete_files_to_tracker()
             generate_files_analytic()
+            generate_files()
 
             email = u['email']
             password = u['pass']
@@ -116,6 +117,7 @@ def select_function():
             generate_files_to_tracker()
             delete_files_to_tracker()
             generate_files_analytic()
+            generate_files()
 
             email = u['email']
             password = u['pass']

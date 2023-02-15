@@ -5,92 +5,87 @@ import json
 from instaloader.exceptions import BadCredentialsException, ConnectionException, ProfileNotExistsException, QueryReturnedBadRequestException, TooManyRequestsException
 from langdetect.lang_detect_exception import LangDetectException
 from datetime import datetime, date
-from generate_files import generate_files
 from itertools import groupby
 import time
 
 def save_info(path, obj):
-    with open(f"./storage/users_analytics.json", "r") as f:
+    with open(f"./storage/{path}.json", "r") as f:
         data = json.load(f)
 
     data.append(obj)
 
-    with open(f"./storage/users_analytics.json", "w") as f:
+    with open(f"./storage/{path}.json", "w") as f:
         json.dump(data, f, indent=3)
 
 
 def get_followees(sub, users_parse):
     for s in sub:
-        for us in users_parse:
-            user = us["user_name"]
-            passwd = us['user_password']
+        for u in users_parse:
+            user = u["user_name"]
+            passwd = u['user_password']
             print(user, passwd, s)
-            path = f'./sessions/{user}.'
+            session_path = f'./sessions/{user}.'
             l = instaloader.Instaloader(compress_json=False)
             users = []
+            time.sleep(2)
 
             try:
-                l.load_session_from_file(user, path)
+                l.load_session_from_file(user, session_path)
             except FileNotFoundError:
                 try:
                     l.login(user, passwd)
-                    l.save_session_to_file(path)
+                    l.save_session_to_file(session_path)
                 except ConnectionException:
                     print(f"Аккаунт {user} времено в блокировке")
                     continue
                 except BadCredentialsException:
                     print("Пароль не верный")
                     continue
-
             try:
                 profile = Profile.from_username(l.context, s)
                 for followes_ in profile.get_followers():
                     users.append(followes_.username)
-                    time.sleep(0.2)
                     print(followes_.username)
+
             except TooManyRequestsException:
-                print(f"Слишком много запросов меняем аккаунт {user}")
-                continue
+                old_user = user
+                users_parse.remove(user)
+                new_user = user 
+                print(f"Слишком много запросов меняем аккаунт c {old_user} на {new_user}")
+                break
             except ConnectionException:
                 print(f"Аккаунт {user} времено в блокировке")
-                continue
+                users_parse.remove(user)
+                break
             except QueryReturnedBadRequestException:
                 print(f"Похоже что аккаунт {user} временно заблокировали")
+                users_parse.remove(user)
                 break
             
             new_hrefs = [el for el, _ in groupby(users)]
-            print(new_hrefs)
             l.close()
+            users_parse.remove(user)
             return new_hrefs
-
-
+            
 
 def get_analytics(subs, users, email):
-    generate_files()
     for s in subs:
-        for us in users:
-            print(f"email{email}")
-            user = us["user_name"]
-            passwd = us['user_password']
+        for u in users:
+            user = u["user_name"]
+            passwd = u['user_password']
+            session_path = f'./sessions/{user}.'
+            user_analytic_path = f"./analytics/{email}.json"
             print(f'\n{user, passwd}\nuser:{s}\n')
-            path = f'./sessions/{user}.'
-            l = instaloader.Instaloader(compress_json=False)
-            i = 0
+            time.sleep(2)
 
-            proxies = {
-                'http': 'socks5://pproxy.site:12006',
-                'https': 'socks5://pproxy.site:12006'
-            }
+            l = instaloader.Instaloader(compress_json=False)
 
             try:
-                l.load_session_from_file(user, path)
-                l.context._session.proxies = proxies
+                l.load_session_from_file(user, session_path)
             except FileNotFoundError:
                 try:
                     l.login(user, passwd)
-                    l.save_session_to_file(path)
-                    l.context._session.proxies = proxies
-
+                    l.save_session_to_file(session_path)
                 except ConnectionException:
                     print(f"Аккаунт {user} времено в блокировке")
                     continue
@@ -99,92 +94,87 @@ def get_analytics(subs, users, email):
                     continue
 
             try:
+                try:
+                    profile = Profile.from_username(l.context, s)
+                except QueryReturnedBadRequestException:
+                    print(f"Похоже что аккаунт {user} временно заблокировали")
+                    break
+                except ProfileNotExistsException:
+                    print("Удалёный аккаунт")
+                    break
 
-                    time.sleep(0.3)
-                    try:
-                        profile = Profile.from_username(l.context, s)
-                    except QueryReturnedBadRequestException:
-                        print(f"Похоже что аккаунт {user} временно заблокировали")
+                user_name = profile.username
+                is_business_account = profile.is_business_account
+                followers = profile.followers
+                followees = profile.followees
+                biography = profile.biography
+                img = profile.profile_pic_url
+
+                user_info = [{
+                    "user": user_name,
+                    "business": False,
+                    "language": False,
+                    "massfollowers": False,
+                    "available_audience": False,
+                    "active": "last post 3 months ago",
+                    "profile_activity": False,
+                    "genuine_audience": False
+                }]
+
+                for posts in profile.get_posts():
+                    posts_counter = 0
+                    post_date = str(posts.date_local)
+
+                    a = post_date.split(" ")[0].split("-")
+                    b = str(datetime.now().date()).split("-")
+
+                    aa = date(int(a[0]), int(a[1]), int(a[2]))
+                    bb = date(int(b[0]), int(b[1]), int(b[2]))
+                    cc = str(bb-aa).split(",")[0]
+
+                    if cc > "89":
+                        user_info[0]["active"] = "last post 3 months ago"
+                    else:
+                        user_info[0]["active"] = f"last post date {a}"
+
+                    if posts_counter == 0:
                         break
-                    except ProfileNotExistsException:
-                        print("Удалёный аккаунт")
-                        break
+                    posts_counter += 1
 
-                    user_name = profile.username
-                    is_business_account = profile.is_business_account
-                    followers = profile.followers
-                    followees = profile.followees  # Sub
-                    biography = profile.biography
-                    img = profile.profile_pic_url
+                try:
+                    country = detect(biography)
+                except LangDetectException:
+                    country = "ru"
 
-                    user_info = [{
-                        "user": user_name,
-                        "business": False,
-                        "language": False,
-                        "massfollowers": False,
-                        "available_audience": False,
-                        "active": "last post 3 months ago",
-                        "profile_activity": False,
-                        "genuine_audience": False
-                    }]
+                if followers > 1499:
+                    user_info[0]["massfollowers"] = True
 
-                    for posts in profile.get_posts():
-                        posts_counter = 0
-                        post_date = str(posts.date_local)
+                if followees < 999:
+                    user_info[0]["available_audience"] = True
 
-                        a = post_date.split(" ")[0].split("-")
-                        b = str(datetime.now().date()).split("-")
+                if country != "ru":
+                    user_info[0]["language"] = True
+                elif country == None:
+                    user_info[0]["language"] = None
 
-                        aa = date(int(a[0]), int(a[1]), int(a[2]))
-                        bb = date(int(b[0]), int(b[1]), int(b[2]))
-                        cc = str(bb-aa).split(",")[0]
+                if is_business_account:
+                    user_info[0]["business"] = True
 
-                        if cc > "89":
-                            user_info[0]["active"] = "last post 3 months ago"
-                        else:
-                            user_info[0]["active"] = f"last post date {a}"
+                if img != None:
+                    user_info[0]["genuine_audience"] = True
 
-                        if posts_counter == 0:
-                            break
-                        posts_counter += 1
+                print(f"\n{user_info}\n")
 
-                    try:
-                        country = detect(biography)
-                    except LangDetectException:
-                        country = "ru"
+                try:
+                    save_info(email, user_info[0])
+                except FileNotFoundError:
+                    print("1")
+                    print("Запустите шаг 6 прежде чем запускать аналитику !!!")
+                    continue
 
-                    if followers > 1499:
-                        user_info[0]["massfollowers"] = True
-
-                    if followees < 999:
-                        user_info[0]["available_audience"] = True
-
-                    if country != "ru":
-                        user_info[0]["language"] = True
-                    elif country == None:
-                        user_info[0]["language"] = None
-
-                    if is_business_account:
-                        user_info[0]["business"] = True
-
-                    if img != None:
-                        user_info[0]["genuine_audience"] = True
-
-                    print(f"\n{user_info}\n")
-
-                    try:
-                        save_info(f"./storage/{email}.json", user_info[0])
-                    except FileNotFoundError:
-                        print("Запустите шаг 6 прежде чем запускать аналитику !!!")
-                        continue
-
-                    try:
-                        with open(f"./analytics/{email}.json", "r") as f:
-                            data = json.load(f)
-
-                    except FileNotFoundError:
-                        print("Запустите шаг 6 прежде чем запускать аналитику !!!")
-                        continue
+                try:
+                    with open(user_analytic_path, "r") as f:
+                        data = json.load(f)
 
                     if user_info[0]["business"]:
                         data[0]["commercial"] += 1
@@ -207,23 +197,28 @@ def get_analytics(subs, users, email):
                     if user_info[0]["active"] != "last post 3 months ago":
                         data[0]["inactive"] += 1
 
-                    i+=1
-                    print(i)
+                    with open(user_analytic_path, "w") as f:
+                        json.dump(data, f, indent=3)
+                            
+                except FileNotFoundError:
+                    print("4")
+                    print("Запустите шаг 6 прежде чем запускать аналитику !!!")
+                    continue
 
-                    try:
-                        with open(f"./analytics/{email}.json", "w") as f:
-                            json.dump(data, f, indent=3)
-                            break
-                    except FileNotFoundError:
-                        print("Запустите шаг 6 прежде чем запускать аналитику !!!")
-                        continue
+                users.remove(user)
+                break
 
             except TooManyRequestsException:
-                print(f"Слишком много запросов меняем аккаунт {user}")
-                continue
+                old_user = user
+                users.remove(user)
+                new_user = user 
+                print(f"Слишком много запросов меняем аккаунт c {old_user} на {new_user}")
+                break
+
             except ConnectionException:
                 print(f"Аккаунт {user} времено в блокировке")
-                continue
+                users.remove(user)
+                break
 
             l.close()
 
